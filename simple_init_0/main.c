@@ -13,7 +13,7 @@
 
 void wait() {
     // Do some NOPs for a while to pass some time.
-    for (unsigned int i = 0; i < 2000000; ++i) {}
+    for (unsigned int i = 0; i < 20000; ++i) {}
 }
 
 int main() {

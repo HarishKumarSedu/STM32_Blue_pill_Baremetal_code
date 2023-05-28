@@ -8,6 +8,11 @@ arm-none-eabi-gcc -T stm32_ls.ld -nostdlib -Wl,-Map=blinky.map -o blinky.elf bli
 arm-none-eabi-objcopy -O binary blinky.elf blinky.bin
 
 arm-none-eabi-gcc -c -mcpu=cortex-m3 -mthumb -std=gnu11 -Wall -g -O0   -c -o main.o main.c
+arm-none-eabi-gcc -c -mcpu=cortex-m3 -mthumb -std=gnu11 -Wall -g -O0   -c -o stm32f10xx.o stm32f10xx.c
 arm-none-eabi-gcc -c -mcpu=cortex-m3 -mthumb -std=gnu11 -Wall -g -O0   -c -o startup.o startup.c
-arm-none-eabi-gcc -T linker.ld -nostdlib -Wl,-Map=firmware.map -o firmware.elf main.o startup.o  
+arm-none-eabi-gcc -T linker.ld -nostdlib -Wl,-Map=firmware.map -o firmware.elf main.o stm32f10xx.o startup.o  
 arm-none-eabi-objcopy -O binary firmware.elf firmware.bin              
+make flash 
+
+arm-none-eabi-gcc main.c startup.c -W -Wall -Wextra -Werror -Wundef -Wshadow -Wdouble-promotion -Wformat-truncation -fno-common -Wconversion -g3 -Os -ffunction-sections -fdata-sections -I. -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16  -Tlinker.ld -nostartfiles -nostdlib --specs nano.specs -lc -lgcc -Wl,--gc-sections -Wl,-Map=firmware.elf.map -o firmware.elf
+arm-none-eabi-objcopy -O binary firmware.elf firmware.bin
