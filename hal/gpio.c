@@ -15,15 +15,26 @@
 #include "gpio.h"
 #include "io.h"
 
+static gpio_typedef *const gpios[] = {
+                                        GPIOA,
+                                        GPIOB,
+                                        GPIOC,
+                                        GPIOD,
+                                        GPIOE,
+                                        GPIOF,
+};
+
 /**
- * @brief gpio_mode
- * @a function will set the particaular mode pin with the configurations 
- * @param pin 
- * @param port 
- * @param mode 
- * @param speed 
+ * @brief gpio_write__pin
+ * 
+ * @param GPIOx 
+ * @param GPIO_Pin 
+ * @param PinState 
  */
-inline static void  gpio_mode ( io pin,gpio_typedef *port,gpio_mode_t mode, gpio_speed_t speed ){
+// void gpio_write__pin(gpio_typedef* GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState){
+//     // BIT_SET(GPIOx->ODR ,GPIO_Pin);
+// }
 
-
+void gpio_toggle__pin(gpio_typedef* GPIOx, uint16_t GPIO_Pin){
+            BIT_FLIP(GPIOx->ODR ,GPIO_Pin);
 }

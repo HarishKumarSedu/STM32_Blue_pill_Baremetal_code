@@ -94,6 +94,11 @@ CFLAGS += -Wall -Wextra
 CFLAGS += -fno-common -static
 CFLAGS += -ffunction-sections -fdata-sections -Wl,--gc-sections
 
+ifeq ($(DEBUG),y)
+CFLAGS += -fstack-usage
+LDFLAGS += -Xlinker -Map=$(TARGET).map
+endif
+
 LDFLAGS += -march=armv7-m -mabi=aapcs
 LDFLAGS += -nostartfiles -nostdlib -lgcc
 LDFLAGS += -T$(LINKER_SCRIPT)
@@ -126,8 +131,8 @@ build: COMFLAGS = $(OPTFLAGS)
 build: $(TARGET).elf
 
 debug_build: COMFLAGS = $(DBG_OPTFLAGS) -ggdb3
-debug_build: CFLAGS += -fstack-usage
-debug_build: LDFLAGS += -Xlinker -Map=$(TARGET).map
+debug_build: 
+debug_build: 
 debug_build: $(TARGET).elf
 
 $(TARGET).elf: $(OBJS)

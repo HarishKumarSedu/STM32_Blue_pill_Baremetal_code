@@ -43,7 +43,7 @@ typedef struct
 typedef enum gpio_value_t {
     LOW,
     HIGH
-} gpio_value_t;
+} gpio_pinstate_t;
 
 typedef enum gpio_mode_t {
     OUTPUT_PUSHPULL  = 0x00,
@@ -62,17 +62,48 @@ typedef enum gpio_speed_t {
 } gpio_speed_t;
 
 
+typedef enum gpio_port_t{
+    GPIO_A=0,
+    GPIO_B,
+    GPIO_C,
+
+}gpio_port_t;
+
+
+typedef struct 
+{   
+    volatile uint32_t Pin ;          
+    volatile uint32_t Mode ;          
+    volatile uint32_t Pull ;          
+    volatile uint32_t Speed ;          
+    volatile uint32_t Alternate ;          
+
+
+}gpio_initTypedef;
+
+
+
+
+
+// void gpio_init(gpio_typedef *GPIOx,gpio_initTypedef *gpio_init,uint16_t Pin);
+// void gpio_deinit(gpio_typedef *GPIOx,uint16_t Pin);
+// gpio_pinstate_t gpio_read__pin(gpio_typedef *GPIOx,uint16_t Pin);
+
 /**
- * @brief gpio_mode
- * @a function will set the particaular mode pin with the configurations 
- * @param pin 
- * @param port 
- * @param mode 
- * @param speed 
+ * @brief gpio_write__pin
+ * 
+ * @param GPIOx 
+ * @param GPIO_Pin 
+ * @param PinState 
  */
-void  gpio_mode ( io pin,gpio_typedef *port,gpio_mode_t mode, gpio_speed_t speed );
+void gpio_write__pin(gpio_typedef* GPIOx, uint16_t GPIO_Pin, gpio_pinstate_t PinState);
 
-
-
+/**
+ * @brief gpio_toggle__pin
+ * 
+ * @param GPIOx 
+ * @param GPIO_Pin 
+ */
+void gpio_toggle__pin(gpio_typedef* GPIOx, uint16_t GPIO_Pin);
 
 #endif
