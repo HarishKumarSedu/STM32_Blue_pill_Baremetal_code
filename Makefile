@@ -44,7 +44,9 @@ TARGET = firmware
 # OTHER_SRCS: List here all the .c files that needs to be compiled.            #
 #             You can separete them using a space.                             #
 # **************************************************************************** #
-OTHER_SRCS = main.c
+OTHER_SRCS = main.c \
+			 gpio.c \
+			 rcc.c \
 
 
 
@@ -94,11 +96,6 @@ CFLAGS += -Wall -Wextra
 CFLAGS += -fno-common -static
 CFLAGS += -ffunction-sections -fdata-sections -Wl,--gc-sections
 
-ifeq ($(DEBUG),y)
-CFLAGS += -fstack-usage
-LDFLAGS += -Xlinker -Map=$(TARGET).map
-endif
-
 LDFLAGS += -march=armv7-m -mabi=aapcs
 LDFLAGS += -nostartfiles -nostdlib -lgcc
 LDFLAGS += -T$(LINKER_SCRIPT)
@@ -131,8 +128,8 @@ build: COMFLAGS = $(OPTFLAGS)
 build: $(TARGET).elf
 
 debug_build: COMFLAGS = $(DBG_OPTFLAGS) -ggdb3
-debug_build: 
-debug_build: 
+debug_build: CFLAGS += -fstack-usage
+debug_build: LDFLAGS += -Xlinker -Map=$(TARGET).map
 debug_build: $(TARGET).elf
 
 $(TARGET).elf: $(OBJS)
@@ -184,16 +181,16 @@ else
   RM = rm -f
 endif
 
-# clean:
-# 	$(SILENCE)$(RM) -f $(TARGET).elf
-# 	$(SILENCE)$(RM) -f $(TARGET).bin
-# 	$(SILENCE)$(RM) -f $(TARGET).hex
-# 	$(SILENCE)$(RM) -f $(TARGET).size
-# 	$(SILENCE)$(RM) -f $(TARGET).lst
-# 	$(SILENCE)$(RM) -f $(TARGET).dis
-# 	$(SILENCE)$(RM) -f $(TARGET).map
-# 	$(SILENCE)$(RM) -f $(OBJS)
-# 	$(SILENCE)$(RM) -f $(SUS)
+clean:
+	$(SILENCE)$(RM) -f $(TARGET).elf
+	$(SILENCE)$(RM) -f $(TARGET).bin
+	$(SILENCE)$(RM) -f $(TARGET).hex
+	$(SILENCE)$(RM) -f $(TARGET).size
+	$(SILENCE)$(RM) -f $(TARGET).lst
+	$(SILENCE)$(RM) -f $(TARGET).dis
+	$(SILENCE)$(RM) -f $(TARGET).map
+	$(SILENCE)$(RM) -f $(OBJS)
+	$(SILENCE)$(RM) -f $(SUS)
 
 clean:
 	$(RM) *.o *.elf

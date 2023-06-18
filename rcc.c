@@ -9,12 +9,6 @@
  * 
  */
 
-#include "rcc.h"
-#include "int_types.h"
-#include "gpio.h"
-
-
-void rcc_init(rcc_typedef * rcc,io io){
-    BIT_SET(rcc->APB2ENR ,io);
-}
-
+#include "hal/rcc.h"
+#include "hal/int_types.h"
+#include "hal/gpio.h"

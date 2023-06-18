@@ -26,26 +26,28 @@ typedef struct
     volatile uint32_t BRR;      //0x14
     volatile uint32_t LCKR ;   //0x18
 
-}gpio_typedef;
+} GPIO_TypDef;
 
 #define GPIO_PORT_BASE 0x40010800 // GPIO PORT base 
 #define GPIO_PORT_OFFSET 0x400   // OFFESET from each GPIO port from A-F 
 
-#define GPIOA ((gpio_typedef *) (GPIO_PORT_BASE + 0*GPIO_PORT_OFFSET))      // PORTA address => 0x40010800
-#define GPIOB ((gpio_typedef *) (GPIO_PORT_BASE + 1*GPIO_PORT_OFFSET))     // PORTA address => 0x40010c00
-#define GPIOC ((gpio_typedef *) (GPIO_PORT_BASE + 2*GPIO_PORT_OFFSET))    // PORTA address => 0x40011000
-#define GPIOD ((gpio_typedef *) (GPIO_PORT_BASE + 3*GPIO_PORT_OFFSET))   // PORTA address => 0x40011400
-#define GPIOE ((gpio_typedef *) (GPIO_PORT_BASE + 4*GPIO_PORT_OFFSET))  // PORTA address => 0x40011800
-#define GPIOF ((gpio_typedef *) (GPIO_PORT_BASE + 5*GPIO_PORT_OFFSET)) // PORTA address => 0x40011c00
+#define GPIOA (( GPIO_TypDef *) (GPIO_PORT_BASE + 0*GPIO_PORT_OFFSET))      // PORTA address => 0x40010800
+#define GPIOB (( GPIO_TypDef *) (GPIO_PORT_BASE + 1*GPIO_PORT_OFFSET))     // PORTA address => 0x40010c00
+#define GPIOC (( GPIO_TypDef *) (GPIO_PORT_BASE + 2*GPIO_PORT_OFFSET))    // PORTA address => 0x40011000
+#define GPIOD (( GPIO_TypDef *) (GPIO_PORT_BASE + 3*GPIO_PORT_OFFSET))   // PORTA address => 0x40011400
+#define GPIOE (( GPIO_TypDef *) (GPIO_PORT_BASE + 4*GPIO_PORT_OFFSET))  // PORTA address => 0x40011800
+#define GPIOF (( GPIO_TypDef *) (GPIO_PORT_BASE + 5*GPIO_PORT_OFFSET)) // PORTA address => 0x40011c00
 
 /* GPIO data types */
 
-typedef enum gpio_value_t {
+typedef enum  
+{
     LOW,
     HIGH
-} gpio_pinstate_t;
+} GPIO_Pinset;
 
-typedef enum gpio_mode_t {
+typedef enum 
+{
     OUTPUT_PUSHPULL  = 0x00,
     OUTPUT_OPENDRAIN = 0x01,
     ANALOG           = 0x00,
@@ -62,48 +64,20 @@ typedef enum gpio_speed_t {
 } gpio_speed_t;
 
 
-typedef enum gpio_port_t{
-    GPIO_A=0,
-    GPIO_B,
-    GPIO_C,
-
-}gpio_port_t;
-
-
-typedef struct 
-{   
-    volatile uint32_t Pin ;          
-    volatile uint32_t Mode ;          
-    volatile uint32_t Pull ;          
-    volatile uint32_t Speed ;          
-    volatile uint32_t Alternate ;          
-
-
-}gpio_initTypedef;
-
-
-
-
-
-// void gpio_init(gpio_typedef *GPIOx,gpio_initTypedef *gpio_init,uint16_t Pin);
-// void gpio_deinit(gpio_typedef *GPIOx,uint16_t Pin);
-// gpio_pinstate_t gpio_read__pin(gpio_typedef *GPIOx,uint16_t Pin);
-
 /**
- * @brief gpio_write__pin
- * 
- * @param GPIOx 
- * @param GPIO_Pin 
- * @param PinState 
+ * @brief gpio_mode
+ * @a function will set the particaular mode pin with the configurations 
+ * @param pin 
+ * @param port 
+ * @param mode 
+ * @param speed 
  */
-void gpio_write__pin(gpio_typedef* GPIOx, uint16_t GPIO_Pin, gpio_pinstate_t PinState);
 
-/**
- * @brief gpio_toggle__pin
- * 
- * @param GPIOx 
- * @param GPIO_Pin 
- */
-void gpio_toggle__pin(gpio_typedef* GPIOx, uint16_t GPIO_Pin);
+
+
+void HAL_GPIO_Init()
+
+
+
 
 #endif
