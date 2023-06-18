@@ -16,12 +16,9 @@
 #include "gpio.h"
 #include "io.h"
 
+#define SystemCoreClock  (uint32_t)16000000
+
 #define RCC_BASE 0x40021000 // RCC base Address 
-
-#define GPIO_PORTC_BASE 0x40011000 // port C base address 
-
-
-
 
 typedef struct 
 {   

@@ -21,7 +21,7 @@ void SysTick_Handler()
 	msTicks++;
 }
 
-void LL_SysTick_Init()
+static inline void LL_SysTick_Init()
 {   
     // This uses the global SystemCoreClock value with the current system clock in Hertz, 
     //dividing it to create the equivalent value for 1 millisecond.
@@ -53,7 +53,8 @@ void HAL_Delay(uint32_t ms){
     // 0: Counter disabled
     // 1: Counter enabled
 
-    
+    LL_SysTick_Init();
+
     BIT_SET(STK->CSR,IO_00);
     // msTicks = 0;
     uint32_t expected_ticks = msTicks + ms;

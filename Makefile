@@ -47,6 +47,7 @@ TARGET = firmware
 OTHER_SRCS = main.c \
 			 gpio.c \
 			 rcc.c \
+			 systick.c \
 
 
 

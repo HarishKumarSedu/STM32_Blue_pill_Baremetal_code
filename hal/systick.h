@@ -27,7 +27,6 @@ typedef struct
 #define STK (( SYSTICK_TypeDef *) (SYSTICK_BASE))
 
 void HAL_Delay(uint32_t ms);
-void LL_SysTick_Init();
 
 
 #endif

@@ -2,6 +2,7 @@
     "files.associations": {
         "int_types.h": "c",
         "rcc.h": "c",
-        "io.h": "c"
+        "io.h": "c",
+        "systick.h": "c"
     }
 }

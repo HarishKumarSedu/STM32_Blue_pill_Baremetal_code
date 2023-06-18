@@ -87,10 +87,10 @@ void HAL_GPIO_TogglePin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
 GPIO_PinState HAL_GPIO_ReadPin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
 {
     GPIO_PinState GPIO_Value = LOW;
-    if (HIGH == (GPIOx->IDR & 1<<GPIO_Pin ) >> GPIO_Pin )
+    if (HIGH != (GPIOx->IDR & 1<<GPIO_Pin ) >> GPIO_Pin )
     {
         GPIO_Value = HIGH;
     }
-    
+      
     return GPIO_Value;
 }
