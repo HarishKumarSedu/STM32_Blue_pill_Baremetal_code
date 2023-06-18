@@ -20,12 +20,12 @@ typedef enum
     HAL_BUSY    = 0x02,
     HAL_TIMEOUT = 0x03,
 
-} HAL_StatusTypedef ;
+} HAL_StatusTypeDef ;
 
 typedef enum
 {
     HAL_UNLOCKED = 0x00,
     HAL_locked   = 0x01,
-} HAL_LockTypedef ;
+} HAL_LockTypeDef ;
 
 #endif

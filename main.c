@@ -7,23 +7,33 @@
 
 
 #define GPIO_BLINK_NUM 13
+#define delay 40000
 
+void LoopDelay();
 
 int main() {
 
-    BIT_SET(rcc->APB2ENR ,4);
-    // Configure GPIO C pin 13 as output.
-    GPIOC->CRH &= ~(GPIO_CHR_MODE_MASK(GPIO_BLINK_NUM));
-    GPIOC->CRH |= GPIO_CHR_MODE_OUTPUT(GPIO_BLINK_NUM);
+    RCC_GPIO_Init(RCC,4 ); // Enable clock for port C 
 
+    LED_Config();
+    GPIO_Config_C15Input();
     for (;;) {
-        // Set the output bit.
-        BIT_SET(GPIOC->ODR ,GPIO_BLINK_NUM); // Xor bitwise to perform teh inversoin of the value
-        for (uint32_t i = 0; i < 40000; ++i) {}
-        // Reset it again.
-        BIT_CLR(GPIOC->ODR ,GPIO_BLINK_NUM); // Xor Toggle the value 
-        for (uint32_t i = 0; i < 40000; ++i) {}
+
+        if (HIGH == HAL_GPIO_ReadPin(GPIOC,GPIO_15))
+        {
+            HAL_GPIO_WritePin(GPIOC,GPIO_13,HIGH);
+        }
+        else
+        {  
+            HAL_GPIO_WritePin(GPIOC,GPIO_13,LOW); 
+        }
+
+        // LoopDelay();
     }
 
     return 0;
+}
+
+void LoopDelay(){
+    for (uint32_t i = 0; i < delay; ++i) {}
 }

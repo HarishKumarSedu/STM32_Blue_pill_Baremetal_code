@@ -20,9 +20,6 @@
 
 #define GPIO_PORTC_BASE 0x40011000 // port C base address 
 
-#define GPIO_CRH_REGISTER(x) (*(volatile uint32_t *)(x + 0x4))
-#define GPIO_CHR_MODE_MASK(x) (0x3 << ((x - 8) * 4))
-#define GPIO_CHR_MODE_OUTPUT(x) (0x1 << ((x - 8) * 4))
 
 
 
@@ -41,10 +38,11 @@ typedef struct
     volatile uint32_t AHBSTR ; //0x28
     volatile uint32_t CFGR2 ; //0x2c
 
-}rcc_typedef;
+}RCC_TypeDef;
 
-#define rcc ((rcc_typedef *) (RCC_BASE))
+#define RCC ((RCC_TypeDef *) (RCC_BASE))
 
-// void rcc_init(rcc_typedef * rcc,io io);
+
+void RCC_GPIO_Init(RCC_TypeDef* BusReg, uint32_t value);
 
 #endif

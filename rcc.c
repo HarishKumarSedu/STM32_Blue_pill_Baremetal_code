@@ -12,3 +12,8 @@
 #include "hal/rcc.h"
 #include "hal/int_types.h"
 #include "hal/gpio.h"
+
+void RCC_GPIO_Init(RCC_TypeDef* BusReg, uint32_t value)
+{
+    BIT_SET(BusReg->APB2ENR ,value);
+}
