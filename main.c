@@ -5,7 +5,7 @@
 #include "hal/gpio.h"
 #include "hal/io.h"
 #include "hal/systick.h"
-
+#include "hal/usart.h"
 
 #define GPIO_BLINK_NUM 13
 

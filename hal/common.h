@@ -13,6 +13,8 @@
 #define COMMON_H__
 
 // The HAL status is used by almost all HAL API's
+#define __IO volatile
+
 typedef enum
 {
     HAL_OK      = 0x00,
