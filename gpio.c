@@ -42,12 +42,12 @@ void  HAL_GPIO_Init(GPIO_TypeDef* GPIOx, GPIO_InitTypeDef* GPIO_Init)
     if (GPIO_Init->Pin > GPIO_07)
     {
         GPIOx->CRH &= ~(GPIO_CHR_MODE_MASK(GPIO_Init->Pin));
-        GPIOx->CRH |= GPIO_CHR_MODE_OUTPUT( ((GPIO_Init->Pull << 2 ) | GPIO_Init->Mode), GPIO_Init->Pin); // Shift the CONF bits -> Pull by two bits and add with the mode bits 
+        GPIOx->CRH |= GPIO_CHR_MODE_OUTPUT( ((GPIO_Init->Pull << 2 ) | GPIO_Init->Mode | GPIO_Init->Speed), GPIO_Init->Pin); // Shift the CONF bits -> Pull by two bits and add with the mode bits 
     }
     else 
     {
         GPIOx->CRL &= ~(GPIO_CRL_MODE_MASK(GPIO_Init->Pin));
-        GPIOx->CRL |= GPIO_CRL_MODE_OUTPUT( ((GPIO_Init->Pull << 2 ) | GPIO_Init->Mode), GPIO_Init->Pin); // Shift the CONF bits -> Pull by two bits and add with the mode bits 
+        GPIOx->CRL |= GPIO_CRL_MODE_OUTPUT( ((GPIO_Init->Pull << 2 ) | GPIO_Init->Mode | GPIO_Init->Speed), GPIO_Init->Pin); // Shift the CONF bits -> Pull by two bits and add with the mode bits 
     }
     
 }

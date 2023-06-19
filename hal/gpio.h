@@ -109,6 +109,18 @@ typedef struct
 } GPIO_InitTypeDef;
 
 
+typedef enum 
+{
+    GPIOA_Port,
+    GPIOB_Port,
+    GPIOC_Port,
+    GPIOD_Port,
+    GPIOE_Port,
+    GPIOF_Port,
+    GPIOG_Port,
+} GPIO_Port ;
+
+
 
 // App testing functions 
 void LED_Config();

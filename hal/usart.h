@@ -14,21 +14,71 @@
 
 #include <stdint.h>
 #include "common.h"
+#include "gpio.h"
+
+
+#define USART_BRR_DIV_Mantissa_Pos    3U
+#define USART_BRR_DIV_Fraction_Pos    0U
+
+
+#define USART_SR_OVER8_FLAG           ((uint32_t)(1U << 0))
+#define USART_SR_Reserved_FLAG        ((uint32_t)(1U << 1))
+#define USART_SR_UE_FLAG              ((uint32_t)(1U << 2))
+#define USART_SR_M_FLAG               ((uint32_t)(1U << 3))
+#define USART_SR_WAKE_FLAG            ((uint32_t)(1U << 4))
+#define USART_SR_PCE_FLAG             ((uint32_t)(1U << 5))
+#define USART_SR_PS_FLAG              ((uint32_t)(1U << 6))
+#define USART_SR_PEIE_FLAG            ((uint32_t)(1U << 7))
+#define USART_SR_TXEIE_FLAG           ((uint32_t)(1U << 8))
+#define USART_SR_TCIE_FLAG            ((uint32_t)(1U << 9))
+#define USART_SR_RXNEIE_FLAG          ((uint32_t)(1U << 10))
+#define USART_SR_IDLEIE_FLAG          ((uint32_t)(1U << 11))
+#define USART_SR_TE_FLAG              ((uint32_t)(1U << 12))
+#define USART_SR_RE_FLAG              ((uint32_t)(1U << 13))
+#define USART_SR_RWU_FLAG             ((uint32_t)(1U << 14))
+#define USART_SR_SBK_FLAG             ((uint32_t)(1U << 15))
+
+
+#define USART_CR1_OVER8               ((uint32_t)(1U << 0))
+#define USART_CR1_Reserved            ((uint32_t)(1U << 1))
+#define USART_CR1_UE                  ((uint32_t)(1U << 2))
+#define USART_CR1_M                   ((uint32_t)(1U << 3))
+#define USART_CR1_WAKE                ((uint32_t)(1U << 4))
+#define USART_CR1_PCE                 ((uint32_t)(1U << 5))
+#define USART_CR1_PS                  ((uint32_t)(1U << 6))
+#define USART_CR1_PEIE                ((uint32_t)(1U << 7))
+#define USART_CR1_TXEIE               ((uint32_t)(1U << 8))
+#define USART_CR1_TCIE                ((uint32_t)(1U << 9))
+#define USART_CR1_RXNEIE              ((uint32_t)(1U << 10))
+#define USART_CR1_IDLEIE              ((uint32_t)(1U << 11))
+#define USART_CR1_TE                  ((uint32_t)(1U << 12))
+#define USART_CR1_RE                  ((uint32_t)(1U << 13))
+#define USART_CR1_RWU                 ((uint32_t)(1U << 14))
+#define USART_CR1_SBK                 ((uint32_t)(1U << 15))
 
 typedef struct 
 
 {
-  __IO unit32_t BRR  ;            // 0x00
-  __IO unit32_t CR1  ;           // 0x04
-  __IO unit32_t CR2  ;          // 0x08
-  __IO unit32_t CR3  ;         // 0x0C
-  __IO unit32_t GTPR ;        // 0x10
-  __IO unit32_t ICR  ;       // 0x14
-  __IO unit32_t ISR  ;      // 0x18
-  __IO unit32_t RDR  ;     // 0x1c
-  __IO unit32_t RQR  ;    // 0x20
-  __IO unit32_t RTOR ;   // 0x24
-  __IO unit32_t TDR  ;  // 0x28
+  // __IO uint32_t BRR  ;            // 0x00
+  // __IO uint32_t CR1  ;           // 0x04
+  // __IO uint32_t CR2  ;          // 0x08
+  // __IO uint32_t CR3  ;         // 0x0C
+  // __IO uint32_t GTPR ;        // 0x10
+  // __IO uint32_t ICR  ;       // 0x14
+  // __IO uint32_t ISR  ;      // 0x18
+  // __IO uint32_t RDR  ;     // 0x1c
+  // __IO uint32_t RQR  ;    // 0x20
+  // __IO uint32_t RTOR ;   // 0x24
+  // __IO uint32_t TDR  ;  // 0x28
+
+
+    __IO uint32_t  BRR ;          // 0x00
+    __IO uint32_t  CR1 ;         // 0x04
+    __IO uint32_t  CR2 ;        // 0x08
+    __IO uint32_t  CR3 ;       // 0x0C
+    __IO uint32_t  DR ;       // 0x10
+    __IO uint32_t  GTPR ;    // 0x14
+    __IO uint32_t  SR ;     // 0x18
 
 } USART_TypeDef ; 
 
@@ -52,6 +102,9 @@ typedef struct
     uint32_t CLKPolarity ;
     uint32_t CLKPhase ;
     uint32_t CLKLastBit ;
+    uint32_t Port ; 
+    uint32_t TxPin ; 
+    uint32_t RxPin ; 
 } USART_InitTypeDef;
 
 typedef enum
@@ -77,6 +130,15 @@ HAL_USART_ERROR_DMA                 = 0x00000010U,   /*!< DMA transfer error  */
 
 } HAL_USART_Errors ; 
 
+typedef enum 
+{
+  GPIOA_02  = GPIO_02,
+  USART2_TxPin = GPIOA_02,
+  GPIOA_03  = GPIO_03,
+  USART2_RxPin = GPIOA_03,
+
+} USART2_PinMap ; 
+
 typedef struct 
 {
 
@@ -95,10 +157,30 @@ typedef struct
     __IO uint32_t ErrorCode ;
 } USART_HandleTypeDef ; 
 
+
+
+/**
+ * @brief Application functions 
+ * 
+ */
+
+void USART2_Init() ;
+
 /* Exported functions --------------------------------------------------------*/
 /** @addtogroup USART_Exported_Functions
   * @{
   */
+
+/** LL Functions ----------------------------------------------------------*/
+/**
+ * @brief 
+ * 
+ */
+
+void LL_BaudRate_Set(USART_TypeDef *USARTx, uint32_t BaudRate) ;
+HAL_StatusTypeDef LL_Transmit_Byte(USART_TypeDef *USARTx,uint8_t Byte ) ;
+char LL_Transmit_Byte(USART_TypeDef *USARTx ) ;
+
 
 /** @addtogroup USART_Exported_Functions_Group1
   * @{

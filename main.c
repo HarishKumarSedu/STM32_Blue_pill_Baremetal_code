@@ -11,7 +11,8 @@
 
 int main() {
 
-    RCC_GPIO_Init(RCC,4 ); // Enable clock for port C 
+    // RCC_GPIO_Init(RCC,4 ); // Enable clock for port C 
+    RCC_APB2ENR_Init(GPIOC_RCC_APB2ENR_ENABLE ); // Enable clock for port C 
 
     LED_Config();
     for (;;) {

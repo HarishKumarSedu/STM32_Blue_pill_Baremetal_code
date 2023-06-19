@@ -13,7 +13,16 @@
 #include "hal/int_types.h"
 #include "hal/gpio.h"
 
-void RCC_GPIO_Init(RCC_TypeDef* BusReg, uint32_t value)
+void RCC_APB2ENR_Init(uint32_t PheripherlClockEnable)
 {
-    BIT_SET(BusReg->APB2ENR ,value);
+    // BIT_SET(BusReg->APB2ENR ,value);
+    RCC->APB2ENR|= ~ PheripherlClockEnable;
+    RCC->APB2ENR|=   PheripherlClockEnable;
+}
+
+void RCC_APB1ENR_Init(uint32_t PheripherlClockEnable)
+{
+    // BIT_SET(BusReg->APB2ENR ,value);
+    RCC->APB1ENR|= ~ PheripherlClockEnable;
+    RCC->APB1ENR|=   PheripherlClockEnable;
 }
