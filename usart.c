@@ -65,18 +65,59 @@ void LL_BaudRate_Set(USART_TypeDef *USARTx, uint32_t BaudRate)
 
 HAL_StatusTypeDef LL_Transmit_Byte(USART_TypeDef *USARTx,uint8_t Byte ) 
 {
-      while(!(USARTx->SR & USART_SR_TXEIE_FLAG));
-	    USARTx->DR = Byte;
-	    while(!(USARTx->SR & USART_SR_TCIE_FLAG));
+    // while(!(USARTx->SR & USART_SR_TXE_FLAG));
+	// USARTx->DR = Byte;
+	// while(!(USARTx->SR & USART_SR_TC_FLAG));
         
     return HAL_OK;
 }
 
-char LL_Transmit_Byte(USART_TypeDef *USARTx ) 
+HAL_StatusTypeDef LL_Transmit_String(USART_TypeDef *USARTx,const char *myString ) 
 {
-	while(!(USARTx->SR & USART_SR_RXNEIE_FLAG)); //  Block until char rec'd
+	while (*myString)
+	LL_Transmit_Byte(USARTx,*myString++);
+	while(!(USARTx->SR & USART_SR_TC_FLAG));
+        
+    return HAL_OK;
+}
+
+HAL_StatusTypeDef LL_NewLine_UART(USART_TypeDef *USARTx)
+{
+	LL_Transmit_Byte(USARTx,'\n');
+    return HAL_OK;
+}
+
+char LL_Recive_Byte(USART_TypeDef *USARTx ) 
+{
+	while(!(USARTx->SR & USART_SR_RXNE_FLAG)); //  Block until char rec'd
 	return  USARTx->DR;
 }
+
+HAL_StatusTypeDef LL_Recive(USART_TypeDef *USARTx, char *buff ) 
+{
+	int i=0;
+	uint16_t myValue;
+	do
+	{
+
+		myValue = LL_Recive_Byte(USARTx);
+		if(myValue!='\n')
+		{
+			buff[i]=myValue;
+			i++;
+		}    else
+		{
+			buff[i]='\0';
+			break;
+		}
+
+	}
+	while(!(USARTx->SR & USART_SR_RXNE_FLAG));
+
+    return HAL_OK;
+}
+
+
 
 HAL_StatusTypeDef HAL_USART_Init(USART_HandleTypeDef *husart) 
 {

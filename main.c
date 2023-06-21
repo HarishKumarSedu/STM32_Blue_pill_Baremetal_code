@@ -6,6 +6,7 @@
 #include "hal/io.h"
 #include "hal/systick.h"
 #include "hal/usart.h"
+#include "hal/i2c.h"
 
 #define GPIO_BLINK_NUM 13
 

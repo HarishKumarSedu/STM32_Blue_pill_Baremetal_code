@@ -53,10 +53,10 @@
 
 
 #define USART_SR_ADD_FLAG             ((uint32_t)(1U << 0))
-#define USART_SR_Res_FLAG             ((uint32_t)(1U << 4))
+// #define USART_SR_Res_FLAG             ((uint32_t)(1U << 4))
 #define USART_SR_LBDL_FLAG            ((uint32_t)(1U << 5))
 #define USART_SR_LBDIE_FLAG           ((uint32_t)(1U << 6))
-#define USART_SR_Res_FLAG             ((uint32_t)(1U << 7))
+// #define USART_SR_Res_FLAG             ((uint32_t)(1U << 7))
 #define USART_SR_LBCL_FLAG            ((uint32_t)(1U << 8))
 #define USART_SR_CPHA_FLAG            ((uint32_t)(1U << 9))
 #define USART_SR_CPOL_FLAG            ((uint32_t)(1U << 10))
@@ -200,7 +200,10 @@ void USART2_Init() ;
 
 void LL_BaudRate_Set(USART_TypeDef *USARTx, uint32_t BaudRate) ;
 HAL_StatusTypeDef LL_Transmit_Byte(USART_TypeDef *USARTx,uint8_t Byte ) ;
-char LL_Transmit_Byte(USART_TypeDef *USARTx ) ;
+HAL_StatusTypeDef LL_Transmit_String(USART_TypeDef *USARTx,const char *myString ) ;
+HAL_StatusTypeDef LL_NewLine_UART(USART_TypeDef *USARTx) ;
+char LL_Recive_Byte(USART_TypeDef *USARTx )  ;
+HAL_StatusTypeDef LL_Recive(USART_TypeDef *USARTx, char *buff ) ;
 
 
 /** @addtogroup USART_Exported_Functions_Group1
